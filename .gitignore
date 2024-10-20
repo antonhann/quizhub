@@ -1,24 +1,8 @@
-# Logs
-logs
+# Ignore Python virtual environments
+venv/
+.env
+*.pyc
+__pycache__/
+
+# Ignore other files you don't want to track
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?

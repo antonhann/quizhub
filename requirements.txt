@@ -1,0 +1,8 @@
+# This file lists the dependencies for the FastAPI project
+fastapi[all]
+supabase
+
+# To generate this file, run the following command:
+# pip freeze > requirements.txt
+# On macOS/Linux:
+#source venv/bin/activate
