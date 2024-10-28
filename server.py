@@ -40,3 +40,5 @@ def logout():
 @app.get("/current_user")
 def get_current_user():
     return supabase.auth.get_user()
+
+#run the server uvicorn server:app --reload
