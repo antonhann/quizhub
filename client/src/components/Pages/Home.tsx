@@ -1,6 +1,6 @@
-import { AppContainer } from "../helper"
+import { AppContainer } from "../AppContainer";
 import { useNavigate } from "react-router";
-import { useSessionContext } from "../SessionContext";
+import { useSessionContext } from "../../SessionContext";
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -13,7 +13,7 @@ export const Home = () => {
                     <p className="lead">Here is where we are able to study flashcard sets!</p>
                     <div className="home-buttons d-flex justify-content-around pt-5">
                     <button onClick={() => navigate('/create')}>Create</button>
-                    <button onClick={() => navigate('/view_mysets')}>View My Study Sets</button>
+                    <button onClick={() => navigate('/view-my-study-set')}>View My Study Sets</button>
                     <button onClick={() => navigate('/search')}>Search</button>
                     </div>
                 </div>

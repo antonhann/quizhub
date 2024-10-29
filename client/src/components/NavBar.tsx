@@ -1,10 +1,6 @@
 import { useNavigate } from "react-router";
-import { useSessionContext } from "./SessionContext";
-import { supabase } from "./supabaseClient";
-
-interface NavProps{
-    active?: Sections
-}
+import { useSessionContext } from "../SessionContext";
+import { supabase } from "../supabaseClient";
 
 export enum Sections{
     Home,
@@ -12,7 +8,9 @@ export enum Sections{
     View,
     Search
 }
-
+interface NavProps{
+    active?: Sections
+}
 export const NavBar = (props: NavProps) => {
     const { active } = props;
     const session = useSessionContext();
@@ -61,26 +59,3 @@ export const NavBar = (props: NavProps) => {
         </nav>
     );
 };
-
-
-export const Footer = () => {
-    return(
-        <>
-            <footer className="footer d-flex justify-content-center align-items-center">
-                <p>&copy; 2024 QuizHub. All Rights Reserved.</p>
-            </footer>
-        </>
-    )
-}
-
-export const AppContainer = ({ children, active} : any) => {
-    return (
-        <div className = "app-container">
-            <NavBar active= {active} />
-            <section className="main-container">
-                {children}
-            </section>
-            <Footer/>
-        </div>
-    )
-}
