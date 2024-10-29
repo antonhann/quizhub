@@ -23,6 +23,7 @@ export const NavBar = (props: NavProps) => {
             console.error('Error logging out:', error.message);
             return;
         }
+        navigate("/");
     };
     return (
         <nav className="navbar navbar-expand-lg p-3">
@@ -51,7 +52,7 @@ export const NavBar = (props: NavProps) => {
                             </li>
                             :
                             <li className="nav-item">
-                                <a className="nav-link" style = {{cursor: "pointer"}} onClick={() => navigate("/register")}>Register</a>
+                                <a className="nav-link" style = {{cursor: "pointer"}} onClick={() => navigate("/login")}>Log In</a>
                             </li>
                         }
                     </ul>
