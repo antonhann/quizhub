@@ -15,7 +15,6 @@ export const Register = () => {
             email,
             password,
         })
-        console.log(register)
         if(register.error){
             setError(register.error.message)
             setLoading(false)
@@ -96,7 +95,6 @@ export const Login = () => {
         })
         if(login.error){
             setError(login.error.message)
-            console.log(login.error)
         }else{
             navigate('/')
         }

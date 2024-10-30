@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { useSessionContext } from "../../SessionContext"
-import { AppContainer } from "../AppContainer"
+import { AppContainer } from "../reusables/AppContainer"
 import { useEffect } from "react";
 
 export const ViewMyStudySet = () => {
@@ -11,7 +11,6 @@ export const ViewMyStudySet = () => {
             navigate("/login");
         }
     },[])
-    console.log(session.user)
     return (
         <AppContainer>
             <h1>View My Study Set</h1>

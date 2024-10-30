@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
-import { useSessionContext } from "../SessionContext";
-import { supabase } from "../supabaseClient";
+import { useSessionContext } from "../../SessionContext";
+import { supabase } from "../../supabaseClient";
 
 export enum Sections{
     Home,
