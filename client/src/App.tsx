@@ -7,17 +7,48 @@ import { SessionProvider } from './SessionContext'
 import { Create } from './components/Pages/Create'
 import { ViewMyStudySet } from './components/Pages/ViewMyStudySet'
 import { NotFound } from './components/Pages/NotFound'
+import React from 'react'
+
+interface RouteConfig{
+  path: string,
+  component: React.FC
+}
+
+const ROUTES: RouteConfig[] = [
+  {
+    path: "/",
+    component: Home,
+  },
+  {
+    path: "/register",
+    component: Register,
+  },
+  {
+    path: "/login",
+    component: Login,
+  },
+  {
+    path: "/create",
+    component: Create,
+  },
+  {
+    path: "/view-my-study-set",
+    component: ViewMyStudySet,
+  },
+  {
+    path: "*",
+    component: NotFound,
+  },
+];
+
 function App() {
   return (
     <SessionProvider>
       <BrowserRouter>
         <Routes>
-          <Route path = "/" element = {<Home/>}/>
-          <Route path = "/register" element = {<Register/>}/>
-          <Route path = "/login" element = {<Login/>}/>
-          <Route path = "/create" element = {<Create/>}/>
-          <Route path = "/view-my-study-set" element = {<ViewMyStudySet/>}/>
-          <Route path="*" element={<NotFound />} />  
+          {ROUTES.map((route, index) => (
+            <Route key={index} path={route.path} element={<route.component />} />
+          ))}
         </Routes>
       </BrowserRouter>
     </SessionProvider>
