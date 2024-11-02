@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { supabase } from "../../supabaseClient"
 import { useNavigate } from "react-router"
 export const Register = () => {
@@ -8,7 +8,8 @@ export const Register = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const navigate = useNavigate()
-    const handleRegisterClick = async () => {
+    const handleRegisterClick = async (e : React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
         setLoading(true)
         setError('')
         const register = await supabase.auth.signUp({
@@ -45,7 +46,7 @@ export const Register = () => {
     return(
         <div className="d-flex justify-content-center align-items-center flex-column vh-100 vw-100 gap-3">
         <h2>Register</h2>
-        <form className="d-flex flex-column align-items-center w-100" onSubmit={(e) => { e.preventDefault(); handleRegisterClick(); }} style={{ maxWidth: '400px' }}>
+        <form className="d-flex flex-column align-items-center w-100" onSubmit={(e) => handleRegisterClick(e)} style={{ maxWidth: '400px' }}>
             <input
                 type="text"
                 className="form-control mb-3"
@@ -67,7 +68,7 @@ export const Register = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button type="submit" className="btn btn-primary w-100" onClick={() => handleRegisterClick()}>
+            <button type="submit" className="btn btn-primary w-100">
                 Submit
             </button>
         </form>
@@ -86,7 +87,8 @@ export const Login = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const navigate = useNavigate()
-    const handleLoginClick = async () => {
+    const handleLoginClick = async (e : React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
         setLoading(true)
         setError('')
         const login = await supabase.auth.signInWithPassword({
@@ -106,7 +108,7 @@ export const Login = () => {
     return(
         <div className="d-flex justify-content-center align-items-center flex-column vh-100 vw-100 gap-3">
             <h2>Login</h2>
-            <form className="d-flex flex-column align-items-center w-100" onSubmit={(e) => { e.preventDefault(); handleLoginClick(); }} style={{ maxWidth: '400px' }}>
+            <form className="d-flex flex-column align-items-center w-100" onSubmit={(e) => { handleLoginClick(e); }} style={{ maxWidth: '400px' }}>
                 <input
                     type="email"
                     className="form-control mb-3"
@@ -121,7 +123,7 @@ export const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type="submit" className="btn btn-primary w-100" onClick={() => handleLoginClick()}>
+                <button type="submit" className="btn btn-primary w-100">
                     Submit
                 </button>
             </form>
