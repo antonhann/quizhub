@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { StudyCard } from "../../models/StudyCard";
-import { supabase } from "../../supabaseClient";
+import { fetchStudySetByID } from "../../fetchHelper";
 interface StudySet{
     title: string,
     description: string, 
@@ -12,16 +12,13 @@ const ViewSet = () => {
     const params = useParams();
     const [studySet, setStudySet] = useState<StudySet>()
     useEffect(() =>{
-        const fetchStudySet = async () => {
-            const response = await supabase.from("Study Set").select("*").eq("id",params.id)
-            if (response.error || !response.data){
-                console.error(response.error)
+        fetchStudySetByID(params.id).then((result) =>{
+            if(result.error){
+                //handle error
+                return
             }
-            if (response.data?.length == 1) {
-                setStudySet(response.data[0]);
-            }
-        }
-        fetchStudySet()
+            setStudySet(result.data)
+        })
     },[])
     return (
         <div>

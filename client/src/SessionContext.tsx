@@ -1,4 +1,3 @@
-// src/SessionContext.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
@@ -16,43 +15,49 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const [session, setSession] = useState<Session | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const [username, setUsername] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(true); // New loading state
 
     useEffect(() => {
         const fetchSession = async () => {
             const { data, error } = await supabase.auth.getSession();
             if (error) {
                 console.error('Error fetching session:', error);
+                setLoading(false); // Stop loading on error
                 return;
             }
             setSession(data.session);
-            setUser(data.session?.user || null); // Get user from the session if it exists
+            setUser(data.session?.user || null);
             if (data.session?.user) {
                 const { data: profiles, error } = await supabase
                     .from('profiles')
                     .select('username')
-                    .eq('email', data.session?.user.email)
+                    .eq('email', data.session.user.email)
                     .single();
                 if (error) {
                     console.error('Error getting profile:', error);
-                    return;
+                } else {
+                    setUsername(profiles?.username || '');
                 }
-                setUsername(profiles?.username || '');
             }
+            setLoading(false); // Stop loading once session is fetched
         };
 
         fetchSession();
 
-        // Optional: Subscribe to auth changes (sign-in, sign-out)
+        // Subscribe to auth changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
             setSession(session);
             setUser(session?.user || null);
         });
 
-        // Cleanup subscription on unmount
         return () => {
             subscription?.unsubscribe();
         };
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>; // Show loading state while fetching
+    }
 
     return (
         <SessionContext.Provider value={{ supabase, session, user, username }}>
@@ -60,6 +65,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
         </SessionContext.Provider>
     );
 };
+
 
 export const useSessionContext = (): SessionContextType => {
     const context = useContext(SessionContext);
