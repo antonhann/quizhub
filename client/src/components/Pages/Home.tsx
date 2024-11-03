@@ -1,9 +1,19 @@
 import { useNavigate } from "react-router";
 import { useSessionContext } from "../../SessionContext";
+import { useEffect, useState } from "react";
+import Loading from "../reusables/Loading";
 
 export const Home = () => {
     const navigate = useNavigate();
     const session = useSessionContext();
+    const [loading, setLoading] = useState<boolean>(false)
+
+    useEffect(() => {
+        console.log(session)
+    }, []);
+    if (loading){
+        return <Loading/>
+    }
     return(
         <div>
             <section className="d-flex justify-content-center align-items-center text-gray text-center py-5 flex-grow-1">

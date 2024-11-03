@@ -21,7 +21,7 @@ export const NavBar = (props: NavProps) => {
             console.error('Error logging out:', error.message);
             return;
         }
-        navigate("/");
+        window.location.reload()
     };
     return (
         <nav className="navbar navbar-expand-lg p-3">

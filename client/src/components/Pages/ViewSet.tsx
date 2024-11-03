@@ -4,12 +4,16 @@ import { fetchStudySetByID } from "../../fetchHelper";
 import { useSessionContext } from "../../SessionContext";
 import { StudySet } from "../../models/StudySet";
 import { supabase } from "../../supabaseClient";
+import Loading from "../reusables/Loading";
 const ViewSet = () => {
     const params = useParams();
     const [studySet, setStudySet] = useState<StudySet>()
     const session = useSessionContext();
     const navigate = useNavigate()
+    const [loading, setLoading] = useState<boolean>(false)
+    
     useEffect(() =>{
+        setLoading(true)
         fetchStudySetByID(params.id).then((result) =>{
             if(result.error){
                 //handle error
@@ -17,6 +21,7 @@ const ViewSet = () => {
             }
             setStudySet(result.data)
         })
+        setLoading(false)
     },[])
     const handleEditRedirect = () =>{
         navigate("/create", {state: {studySetID: studySet?.id}})
@@ -30,6 +35,15 @@ const ViewSet = () => {
         }
         navigate("/my-library")
     }
+    if(loading){
+        return <Loading/>
+    }
+    if(studySet == undefined){
+        return (<div>
+            StudySet doesnt exist!
+        </div>)
+    }
+
     return (
         <div className="d-flex flex-column gap-5">
             <div>

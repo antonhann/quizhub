@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import { useSessionContext } from "../../SessionContext"
 import { useEffect, useState } from "react";
 import { fetchUserLibrary } from "../../fetchHelper";
+import Loading from "../reusables/Loading";
 interface StudySet{
     id: number
     title: string
@@ -12,11 +13,13 @@ export const Library = () => {
     const session = useSessionContext();
     const navigate = useNavigate();
     const [library, setLibrary] = useState<StudySet[] | null>([])
+    const [loading, setLoading] = useState<boolean>(false)
     useEffect(() => {
         if(!session.user){
             navigate("/login");
             return
         }
+        setLoading(true)
         fetchUserLibrary(session.username).then(({data, error}) => {
             if(error){
                 console.error(error)
@@ -24,9 +27,13 @@ export const Library = () => {
             }
             setLibrary(data)
         })
+        setLoading(false)
     },[])
     const handleSetRedirect = (id : number) => {
         navigate(`/view-set/${id}`)
+    }
+    if(loading){
+        return <Loading/>
     }
     return (
         <div className="d-flex justify-content-center text-center flex-column">

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { serializeStudyCards, StudyCard } from "../../models/StudyCard";
 import { supabase } from "../../supabaseClient";
 import { fetchStudySetByID } from "../../fetchHelper";
+import Loading from "../reusables/Loading";
 
 const DEFAULT_STUDY_SET: StudyCard[] = [
     new StudyCard(1),
@@ -20,11 +21,12 @@ export const Create = () => {
     const [description, setDescription] = useState<string>("");
     const [terms, setTerms] = useState<StudyCard[]>(DEFAULT_STUDY_SET);
     const [editing, setEditing] = useState<boolean>(false);
-
+    const [loading, setLoading] = useState<boolean>(false)
     useEffect(() => {
         if (!session.user) {
             navigate("/login");
         }
+        setLoading(true)
         if (studySetID) {
             fetchStudySetByID(studySetID).then(({data,error}) => {
                 if (error){
@@ -37,6 +39,7 @@ export const Create = () => {
                 setDescription(data.description);
             })
         }
+        setLoading(false)
     }, []);
 
     const handleStudyCardDelete = (id: number) => {
@@ -82,6 +85,10 @@ export const Create = () => {
             console.log("success");
         }
     };
+
+    if(loading){
+        return <Loading/>
+    }
 
     return (
         <div>

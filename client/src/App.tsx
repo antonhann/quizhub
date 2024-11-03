@@ -59,6 +59,7 @@ function App() {
             </AppContainer>
           } />
           ))}
+          <Route path = "*" element = {<NotFound/>}/>
         </Routes>
       </BrowserRouter>
     </SessionProvider>
