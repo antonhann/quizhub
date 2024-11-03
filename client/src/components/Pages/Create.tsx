@@ -15,7 +15,7 @@ export const Create = () => {
     const session = useSessionContext();
     const navigate = useNavigate();
     const location = useLocation();
-    const { studySetID } = location.state || null;
+    const { studySetID } = location.state || {};
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [terms, setTerms] = useState<StudyCard[]>(DEFAULT_STUDY_SET);
@@ -85,7 +85,7 @@ export const Create = () => {
 
     return (
         <div>
-            <h1>Create Study Set</h1>
+            <h1>{editing ? "Editing" : "Create"} Study Set</h1>
             <form className="create d-flex flex-column center p-5 gap-5" onSubmit={handleCreateStudySet}>
                 <div className="d-flex flex-column w-100 gap-3">
                     <input
