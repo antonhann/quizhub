@@ -4,7 +4,7 @@ export const AppContainer = ({ children, active} : any) => {
     return (
         <div className = "app-container">
             <NavBar active= {active} />
-            <section className="main-container">
+            <section className="main-container p-3">
                 {children}
             </section>
             <Footer/>

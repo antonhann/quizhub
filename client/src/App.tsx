@@ -5,9 +5,11 @@ import { Home } from './components/Pages/Home'
 import { Login, Register } from './components/Pages/Auth'
 import { SessionProvider } from './SessionContext'
 import { Create } from './components/Pages/Create'
-import { ViewMyStudySet } from './components/Pages/ViewMyStudySet'
+import { Library } from './components/Pages/Library'
 import { NotFound } from './components/Pages/NotFound'
 import React from 'react'
+import { AppContainer } from './components/reusables/AppContainer'
+import ViewSet from './components/Pages/ViewSet'
 
 interface RouteConfig{
   path: string,
@@ -32,8 +34,12 @@ const ROUTES: RouteConfig[] = [
     component: Create,
   },
   {
-    path: "/view-my-study-set",
-    component: ViewMyStudySet,
+    path: "/my-library",
+    component: Library,
+  },
+  {
+    path: "/view-set/:id",
+    component: ViewSet,
   },
   {
     path: "*",
@@ -47,7 +53,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           {ROUTES.map((route, index) => (
-            <Route key={index} path={route.path} element={<route.component />} />
+            <Route key={index} path={route.path} element={
+            <AppContainer>
+              <route.component />
+            </AppContainer>
+          } />
           ))}
         </Routes>
       </BrowserRouter>
