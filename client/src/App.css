@@ -14,10 +14,11 @@ body {
 .main-container {
   flex-grow: 1; /* Allow main container to grow to fill available space */
   background: linear-gradient(to right, rgb(74, 74, 228), rgb(198, 141, 243));
-  max-height: 100vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  padding: 50px 250px;
+  overflow: auto
 }
 .home-buttons{
   flex-wrap: wrap;
@@ -30,7 +31,9 @@ body {
 }
 
 .library-set{
+  background-color: #E6E6FA;
   border: 1px solid black;
+  padding: 10px 0px;
   width: 50%;
   display: flex;
   justify-content: center;
@@ -41,4 +44,45 @@ body {
 
 .library-set:hover{
   background-color: grey
+}
+
+.create-description {
+  width: 40%; /* Adjust width as needed */
+  height: 150px; /* Adjusted height for more space */
+}
+
+.create-description::placeholder {
+  color: #aaa; /* Subtle placeholder color */
+}
+.create-title{
+  width: 80%;
+}
+.create input, .create textarea{
+  padding: 10px; /* Adds padding for a clean look */
+  border: 1px solid #ccc; /* Subtle border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Adjust font size */
+  resize: none; /* Prevents resizing of the textarea */
+  overflow: hidden; /* Keeps it looking tidy */
+  line-height: 1.5; /* Adds spacing for better readability */
+  box-shadow: none; /* Removes default shadow */
+  outline: none; /* Removes blue outline on focus */
+}
+.create-card{
+  border: 1px solid #ccc; /* Subtle border */
+  padding: 20px 100px;
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: 95% 5%;
+}
+.create-card > div:first-child {
+  grid-column: span 2; /* Makes the first <div> take the full width of the row */
+}
+.create-card-input input{
+  width: 40%
+}
+
+.center{
+  justify-content: center;
+  align-items: center;
 }

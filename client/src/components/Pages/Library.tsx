@@ -13,7 +13,6 @@ export const Library = () => {
     const navigate = useNavigate();
     const [library, setLibrary] = useState<StudySet[] | null>([])
     useEffect(() => {
-        console.log(session)
         if(!session.user){
             navigate("/login");
             return
@@ -30,15 +29,15 @@ export const Library = () => {
         navigate(`/view-set/${id}`)
     }
     return (
-        <div>
-            <h2>My Library</h2>
+        <div className="d-flex justify-content-center text-center flex-column">
+            <h1>My Library</h1>
             <div className="d-flex flex-column justify-content-center align-items-center gap-3 p-5">
                 {
                     library?.map( (set) => {
                         return (
                         <div key = {set.id} className="library-set" onClick={ () => handleSetRedirect(set.id)}>
-                            <h1>{set.title}</h1>
-                            <h3>{set.username}</h3> 
+                            <h2>{set.title}</h2>
+                            <p>{set.username}</p> 
                         </div>
                         )
                     })

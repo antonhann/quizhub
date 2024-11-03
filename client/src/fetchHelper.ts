@@ -10,7 +10,6 @@ export const fetchStudySetByID = async (id : string | undefined) => {
 
 export const fetchUserLibrary = async(username : string) =>{
     const studySets = await supabase.from("Study Set").select("*").eq("username", username)
-    console.log(studySets)
     if(studySets.error){
         return {data: [], error: null}
     }

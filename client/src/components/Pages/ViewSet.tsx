@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { StudyCard } from "../../models/StudyCard";
+import { useNavigate, useParams } from "react-router";
 import { fetchStudySetByID } from "../../fetchHelper";
-interface StudySet{
-    title: string,
-    description: string, 
-    username: string,
-    terms: StudyCard[]
-}
+import { useSessionContext } from "../../SessionContext";
+import { StudySet } from "../../models/StudySet";
+import { supabase } from "../../supabaseClient";
 const ViewSet = () => {
     const params = useParams();
     const [studySet, setStudySet] = useState<StudySet>()
+    const session = useSessionContext();
+    const navigate = useNavigate()
     useEffect(() =>{
         fetchStudySetByID(params.id).then((result) =>{
             if(result.error){
@@ -20,6 +18,18 @@ const ViewSet = () => {
             setStudySet(result.data)
         })
     },[])
+    const handleEditRedirect = () =>{
+        navigate("/create", {state: {studySetID: studySet?.id}})
+    }
+    const handleDeleteStudySet = async() => {
+        const {status, error} = await supabase.from("Study Set").delete().eq("id",studySet?.id)
+        if(error){
+            console.error(error)
+        }else{
+            console.log("success in deleting study set", status)
+        }
+        navigate("/my-library")
+    }
     return (
         <div>
             <div>
@@ -30,12 +40,20 @@ const ViewSet = () => {
                 <button>Flashcard</button>
                 <button>Test</button>
                 <button>Learn</button>
+                {session.username == studySet?.username && 
+                (
+                <>
+                    <button onClick={() => handleEditRedirect()}>Edit</button>
+                    <button onClick={() => handleDeleteStudySet()}>Delete</button>
+                </>
+                )
+                }
             </div>
             <div>
                 {
-                    studySet?.terms.map((card) => {
+                    studySet?.terms.map((card, index) => {
                         return(
-                            <div key={card.id}>
+                            <div key={index}>
                                 <h4>{card.term}</h4>
                                 <h4>{card.answer}</h4>    
                             </div>

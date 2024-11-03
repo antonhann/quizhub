@@ -44,7 +44,7 @@ export const Register = () => {
         return <p>Loading...</p>
     }
     return(
-        <div className="d-flex justify-content-center align-items-center flex-column vh-100 vw-100 gap-3">
+        <div className="d-flex justify-content-center align-items-center flex-column gap-3">
         <h2>Register</h2>
         <form className="d-flex flex-column align-items-center w-100" onSubmit={(e) => handleRegisterClick(e)} style={{ maxWidth: '400px' }}>
             <input
@@ -106,7 +106,7 @@ export const Login = () => {
         return <p>Loading...</p>
     }
     return(
-        <div className="d-flex justify-content-center align-items-center flex-column vh-100 vw-100 gap-3">
+        <div className="d-flex justify-content-center align-items-center flex-column gap-3">
             <h2>Login</h2>
             <form className="d-flex flex-column align-items-center w-100" onSubmit={(e) => { handleLoginClick(e); }} style={{ maxWidth: '400px' }}>
                 <input
