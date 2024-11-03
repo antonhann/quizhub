@@ -31,29 +31,30 @@ const ViewSet = () => {
         navigate("/my-library")
     }
     return (
-        <div>
+        <div className="d-flex flex-column gap-5">
             <div>
                 <h2>{studySet?.title}</h2>
                 <p>{studySet?.description}</p>
             </div>
-            <div>
+            <div className="d-flex justify-content-evenly">
                 <button>Flashcard</button>
                 <button>Test</button>
                 <button>Learn</button>
                 {session.username == studySet?.username && 
                 (
-                <>
+                <div className="d-flex gap-3">
                     <button onClick={() => handleEditRedirect()}>Edit</button>
                     <button onClick={() => handleDeleteStudySet()}>Delete</button>
-                </>
+                </div>
                 )
                 }
             </div>
-            <div>
+            <div className="d-flex center flex-column gap-3">
+                <h2>Terms</h2>
                 {
                     studySet?.terms.map((card, index) => {
                         return(
-                            <div key={index}>
+                            <div className = "d-flex view-card justify-content-evenly" key={index}>
                                 <h4>{card.term}</h4>
                                 <h4>{card.answer}</h4>    
                             </div>

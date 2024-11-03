@@ -82,6 +82,12 @@ body {
   width: 40%
 }
 
+.view-card{
+  border: 1px solid black;
+  width: 80%;
+  padding: 30px 20px;
+}
+
 .center{
   justify-content: center;
   align-items: center;
