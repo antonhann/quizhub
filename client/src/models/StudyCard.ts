@@ -10,8 +10,15 @@ export class StudyCard{
 };
 
 export const serializeStudyCards = ( cards : StudyCard[]) => {
-    return (cards.map(item => ({
-        term: item.term,
-        answer: item.answer,
-    })));
+    let serialize = []
+
+    for(let i = 0; i < cards.length; i++){
+        if (cards[i].term || cards[i].answer){
+            serialize.push({
+                term: cards[i].term,
+                answer: cards[i].answer
+            })
+        }
+    }
+    return serialize
 }

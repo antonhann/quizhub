@@ -1,15 +1,17 @@
 import { Route, Routes } from 'react-router'
 import './App.css'
 import { BrowserRouter } from 'react-router-dom'
+import { AppContainer } from './components/reusables/AppContainer'
+import React from 'react'
+
 import { Home } from './components/Pages/Home'
 import { Login, Register } from './components/Pages/Auth'
 import { SessionProvider } from './SessionContext'
 import { Create } from './components/Pages/Create'
 import { Library } from './components/Pages/Library'
 import { NotFound } from './components/Pages/NotFound'
-import React from 'react'
-import { AppContainer } from './components/reusables/AppContainer'
 import ViewSet from './components/Pages/ViewSet'
+import Flashcard from './components/Pages/Flashcard'
 
 interface RouteConfig{
   path: string,
@@ -41,10 +43,10 @@ const ROUTES: RouteConfig[] = [
     path: "/view-set/:id",
     component: ViewSet,
   },
-  {
-    path: "*",
-    component: NotFound,
-  },
+  { 
+    path: "/flashcard-set/:id",
+    component: Flashcard,
+  }
 ];
 
 function App() {

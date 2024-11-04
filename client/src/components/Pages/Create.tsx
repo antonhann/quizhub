@@ -74,16 +74,31 @@ export const Create = () => {
         };
         let response;
         if (editing) {
-            response = await supabase.from("Study Set").update(data).eq("id", studySetID);
+            // Update the existing study set
+            response = await supabase
+                .from("Study Set")
+                .update(data)
+                .eq("id", studySetID)
+                .select("*")
+                .single(); // Ensures only one row is returned
         } else {
-            response = await supabase.from("Study Set").insert(data);
+            // Insert a new study set
+            response = await supabase
+                .from("Study Set")
+                .insert(data)
+                .select("*")
+                .single(); // Ensures only one row is returned
         }
-
+        console.log(response)
+        // Access the ID from the response
         if (response.error) {
             console.error(response.error);
         } else {
             console.log("success");
+            let id = response.data.id
+            navigate(`/view-set/${id}`)
         }
+        // navigate(`/view-set/${id}`)
     };
 
     if(loading){

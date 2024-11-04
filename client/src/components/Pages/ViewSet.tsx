@@ -51,7 +51,7 @@ const ViewSet = () => {
                 <p>{studySet?.description}</p>
             </div>
             <div className="d-flex justify-content-evenly">
-                <button>Flashcard</button>
+                <button onClick={() => navigate(`/flashcard-set/${studySet.id}`)}>Flashcard</button>
                 <button>Test</button>
                 <button>Learn</button>
                 {session.username == studySet?.username && 

@@ -1,6 +1,6 @@
 const Loading = () => {
   return (
-    <div>
+    <div className="bg-black h-100">
       Loading
     </div>
   )
