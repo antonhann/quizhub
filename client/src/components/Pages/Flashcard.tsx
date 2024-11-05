@@ -1,13 +1,14 @@
-import { useLocation, useNavigate, useParams } from 'react-router';
-import { useSessionContext } from '../../SessionContext';
+// import { useLocation, useNavigate, useParams } from 'react-router';
+// import { useSessionContext } from '../../SessionContext';
 import { useEffect, useRef, useState } from 'react';
 import { StudyCard } from '../../models/StudyCard';
 import { ToggleButton } from '../reusables/ToggleButton';
+import { useLocation } from 'react-router';
 
 export const Flashcard = () => {
-    const params = useParams();
-    const session = useSessionContext();
-    const navigate = useNavigate()
+    // const params = useParams();
+    // const session = useSessionContext();
+    // const navigate = useNavigate()
     const location = useLocation();
     const formRef = useRef<HTMLDivElement  | null>(null);
     
@@ -17,10 +18,8 @@ export const Flashcard = () => {
     const [shuffled, setShuffled] = useState<boolean>(false)
     const [smartSort, setSmartSort] = useState<boolean>(false)
     const [knowTerms, setKnowTerms] = useState<number>(0)
-    const [endOfStudySet, setEndOfStudySet] = useState<boolean>(false)
     const [startsWithTerm, setStartsWithTerm] = useState<boolean>(true)
     const [optionPopUp, setOptionsPopUp] = useState<boolean>(false)
-    const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
         console.log(terms)
