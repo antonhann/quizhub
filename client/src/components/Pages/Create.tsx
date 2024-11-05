@@ -41,7 +41,6 @@ export const Create = () => {
         }
         setLoading(false)
     }, []);
-
     const handleStudyCardDelete = (id: number) => {
         if (terms.length === 1) {
             return; // Prevent deletion of the last card
@@ -59,7 +58,7 @@ export const Create = () => {
     };
 
     const handleAddingStudyCard = () => {
-        const newCardId = terms.length > 0 ? Math.max(...terms.map(card => card.id)) + 1 : 1; // Generate a unique ID
+        const newCardId = terms.length + 1; // Generate a unique ID
         const defaultCard = new StudyCard(newCardId);
         setTerms(prevSet => [...prevSet, defaultCard]);
     };

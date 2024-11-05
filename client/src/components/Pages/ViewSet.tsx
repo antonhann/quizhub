@@ -7,9 +7,10 @@ import { supabase } from "../../supabaseClient";
 import Loading from "../reusables/Loading";
 const ViewSet = () => {
     const params = useParams();
-    const [studySet, setStudySet] = useState<StudySet>()
     const session = useSessionContext();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
+    const [studySet, setStudySet] = useState<StudySet>()
     const [loading, setLoading] = useState<boolean>(false)
     
     useEffect(() =>{
@@ -35,6 +36,10 @@ const ViewSet = () => {
         }
         navigate("/my-library")
     }
+    const handleFlashcardClick = async () => {
+        navigate(`/flashcard-set/${studySet?.id}`, {state: {originalStudySet: studySet}})
+    }
+
     if(loading){
         return <Loading/>
     }
@@ -51,7 +56,7 @@ const ViewSet = () => {
                 <p>{studySet?.description}</p>
             </div>
             <div className="d-flex justify-content-evenly">
-                <button onClick={() => navigate(`/flashcard-set/${studySet.id}`)}>Flashcard</button>
+                <button onClick={() => handleFlashcardClick()}>Flashcard</button>
                 <button>Test</button>
                 <button>Learn</button>
                 {session.username == studySet?.username && 
