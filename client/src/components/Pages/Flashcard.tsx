@@ -1,17 +1,20 @@
-// import { useLocation, useNavigate, useParams } from 'react-router';
-// import { useSessionContext } from '../../SessionContext';
+import { useLocation, useNavigate, useParams } from 'react-router';
+import { useSessionContext } from '../../SessionContext';
 import { useEffect, useRef, useState } from 'react';
 import { StudyCard } from '../../models/StudyCard';
 import { ToggleButton } from '../reusables/ToggleButton';
-import { useLocation } from 'react-router';
+import { supabase } from '../../supabaseClient';
+import { fetchFlashcardData } from '../../fetchHelper';
+import Loading from '../reusables/Loading';
 
 export const Flashcard = () => {
-    // const params = useParams();
-    // const session = useSessionContext();
-    // const navigate = useNavigate()
+    const params = useParams();
+    const session = useSessionContext();
+    const navigate = useNavigate()
     const location = useLocation();
     const formRef = useRef<HTMLDivElement  | null>(null);
-    
+    const studySetID = params.id;
+
     const [terms, setTerms] = useState<StudyCard[]>(location.state.originalStudySet.terms)
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [showingTerm, setShowingTerm] = useState<boolean>(true)
@@ -20,10 +23,9 @@ export const Flashcard = () => {
     const [knowTerms, setKnowTerms] = useState<number>(0)
     const [startsWithTerm, setStartsWithTerm] = useState<boolean>(true)
     const [optionPopUp, setOptionsPopUp] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
+    const [dataLoaded, setDataLoaded] = useState<boolean>(false)
 
-    useEffect(() => {
-        console.log(terms)
-    },[currentIndex])
     const handleNextCard = (inc : number) => {
         let newIndex = inc + currentIndex
         if (newIndex < 0){
@@ -39,6 +41,10 @@ export const Flashcard = () => {
             item.knows = false; // Mutate each item directly
         });
         setTerms(location.state.originalStudySet.terms)
+        if (shuffled){
+            let shuffledTerms = shuffle(location.state.originalStudySet.terms)
+            setTerms(shuffledTerms)
+        }
     }
     const toggleShuffle = () => {
         let newShuffled = !shuffled
@@ -89,7 +95,74 @@ export const Flashcard = () => {
         return () => {
           document.removeEventListener("mousedown", handleClickOutsideForm);
         };
-      }, [formRef]);
+    }, [formRef]);
+    useEffect(() => {
+        const updatedData = {
+            terms: terms,
+            username: session.username,
+            currentIndex: currentIndex,
+            showingTerm: showingTerm,
+            smartSort: smartSort,
+            studySetID: studySetID,
+            shuffled: shuffled,
+            knowTerms: knowTerms,
+            startsWithTerm: startsWithTerm
+        }
+        const updateFlashcardDB = async () => {
+            const {data} = await fetchFlashcardData(session.username, studySetID)
+            let operation;
+            if(!data){
+                operation = await supabase.from("Flashcard")
+                .insert(updatedData)
+                .select("*")
+                .single()
+            }else{
+                operation = await supabase.from("Flashcard")
+                .update(updatedData)
+                .eq("studySetID", studySetID)
+                .eq("username", session.username)
+                .select("*")
+                .single()
+            }
+            if (operation.error){
+                console.error(operation.error)
+                return
+            }
+        }
+        if(dataLoaded){
+            updateFlashcardDB()
+        }
+       
+        
+    },[currentIndex,showingTerm,smartSort,shuffled,startsWithTerm])
+
+    useEffect(() => {
+        const updateState = async () => {
+            setLoading(true)
+            const {data, error} = await fetchFlashcardData(session.username, studySetID)
+            console.log(data)
+            if(error || !data){
+                console.error(error)
+                return
+            }
+            else{
+                setTerms(data.terms)
+                setCurrentIndex(data.currentIndex)
+                setShowingTerm(data.showingTerm)
+                setShuffled(data.shuffled)
+                setSmartSort(data.smartSort)
+                setKnowTerms(data.knowTerms)
+                setStartsWithTerm(data.startsWithTerm)
+            }
+            setLoading(false)
+            setDataLoaded(true)
+        }
+        updateState();
+    },[])
+
+    if(loading){
+        return <Loading/>
+    }
 
     if(currentIndex == terms.length){
         return(
