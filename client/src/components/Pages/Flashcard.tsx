@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import { useSessionContext } from '../../SessionContext';
 import { useEffect, useRef, useState } from 'react';
 import { StudyCard } from '../../models/StudyCard';
@@ -10,7 +10,6 @@ import Loading from '../reusables/Loading';
 export const Flashcard = () => {
     const params = useParams();
     const session = useSessionContext();
-    const navigate = useNavigate()
     const location = useLocation();
     const formRef = useRef<HTMLDivElement  | null>(null);
     const studySetID = params.id;
