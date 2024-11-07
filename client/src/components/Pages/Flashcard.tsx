@@ -25,13 +25,20 @@ export const Flashcard = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [dataLoaded, setDataLoaded] = useState<boolean>(false)
 
-    const handleNextCard = (inc : number) => {
-        let newIndex = inc + currentIndex
-        if (newIndex < 0){
-            return
-        }
-        setCurrentIndex(newIndex)
-    }
+    const [isSliding, setIsSliding] = useState(false);
+    const [slideDirection, setSlideDirection] = useState("slide-out");
+
+    const handleNextCard = (inc: number) => {
+        const direction = inc > 0 ? "slide-left" : "slide-right";
+        setSlideDirection(direction);
+        setIsSliding(true);
+
+        setTimeout(() => {
+            setCurrentIndex((prevIndex) => prevIndex + inc);
+            setSlideDirection(direction); // Continue in the same direction for the slide-in effect
+            setShowingTerm(true); // Reset to term view
+        }, 300); // Adjust timing to match CSS transition duration
+    };
     const handleRestartClick = () => {
         setCurrentIndex(0)
         setKnowTerms(0)
@@ -182,34 +189,30 @@ export const Flashcard = () => {
         )
     }
     return (
-        <div>
-            <div onClick={() => setShowingTerm(!showingTerm)}>
-                <p>{currentIndex + 1} / {terms.length}</p>
-                {
-                    showingTerm?
-                    (
-                        <div>
-                            {terms[currentIndex].term}
-                        </div>
-                    )
-                    :
-                    (
-                        <div>
-                            {terms[currentIndex].answer}
-                        </div>
-                    )
-                }
-            </div>
+        <div className='d-flex flex-column gap-3'>
+            <p>{currentIndex + 1} / {terms.length}</p>
+            <div
+                className={`flashcard ${isSliding ? slideDirection : ""} ${showingTerm ? 'showingTerm' : 'showingAnswer'}`}
+                onClick={() => setShowingTerm(!showingTerm)}
+                onTransitionEnd={() => setIsSliding(false)}
+            >
+                <div className="flashcard-content term">
+                    {terms[currentIndex].term}
+                </div>
+                <div className="flashcard-content answer">
+                    {terms[currentIndex].answer}
+                </div>
+        </div>
             <div>
                 {
                     smartSort ?
-                    <div>
+                    <div className='d-flex gap-3'>
 
                         <button onClick={() => handleIDKCard()}>IDK</button>
                         <button onClick={() => handleKnowsCard()}>Know</button>
                     </div>
                     :
-                    <div>
+                    <div className='d-flex gap-3'>
                         <button onClick={() => handleNextCard(-1)}>Prev</button>
                         <button onClick={() => handleNextCard(1)}>Next</button>
                     </div>
