@@ -3,7 +3,7 @@ import { useSessionContext } from "../../SessionContext";
 import React, { useEffect, useState } from "react";
 import { serializeStudyCards, StudyCard } from "../../models/StudyCard";
 import { supabase } from "../../supabaseClient";
-import { fetchStudySetByID, updateLibrary } from "../../fetchHelper";
+import { fetchStudySetByID } from "../../fetchHelper";
 import Loading from "../reusables/Loading";
 
 const DEFAULT_STUDY_SET: StudyCard[] = [
