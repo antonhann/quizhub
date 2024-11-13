@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom"; // If you're using React Router for navigation
 import { FaHome, FaBook, FaSearch, FaPlus, FaTimes, FaBars } from "react-icons/fa";
 import { useState } from "react";
+import { useSessionContext } from "../../SessionContext";
 
 const DisplayBar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const session = useSessionContext();
     const toggleMenu = () => {
         setIsOpen(!isOpen); // Toggle the visibility of the menu
     };
-
     return (
         <div className={`display-bar p-3 ${isOpen ? 'open' : 'closed'}`}>
             {/* Menu toggle button */}
@@ -24,12 +25,12 @@ const DisplayBar = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/create">
+                        <Link to={session.user ? "/create" : "/login"}>
                             <FaPlus /> <span className= {`${isOpen && "open"}`}>Create</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/my-library">
+                        <Link to={session.user ? "/my-library" : "/login"}>
                             <FaBook /> <span className= {`${isOpen && "open"}`}>My Library</span>
                         </Link>
                     </li>

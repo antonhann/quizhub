@@ -12,6 +12,7 @@ import { Library } from './components/Pages/Library'
 import { NotFound } from './components/Pages/NotFound'
 import ViewSet from './components/Pages/ViewSet'
 import Flashcard from './components/Pages/Flashcard'
+import Search from './components/Pages/Search'
 
 interface RouteConfig{
   path: string,
@@ -46,6 +47,10 @@ const ROUTES: RouteConfig[] = [
   { 
     path: "/flashcard-set/:id",
     component: Flashcard,
+  },
+  {
+    path: "/search/:prefix",
+    component: Search
   }
 ];
 

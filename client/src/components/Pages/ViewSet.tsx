@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { fetchStudySetByID } from "../../fetchHelper";
+import { fetchStudySetByID, updateLibrary } from "../../fetchHelper";
 import { useSessionContext } from "../../SessionContext";
 import { StudySet } from "../../models/StudySet";
 import { supabase } from "../../supabaseClient";
@@ -12,18 +12,31 @@ const ViewSet = () => {
 
     const [studySet, setStudySet] = useState<StudySet>()
     const [loading, setLoading] = useState<boolean>(false)
+    const hasUpdatedLibrary = useRef(false);
     
-    useEffect(() =>{
-        setLoading(true)
-        fetchStudySetByID(params.id).then((result) =>{
-            if(result.error){
-                //handle error
-                return
+    useEffect(() => {
+        setLoading(true);
+        
+        const fetchData = async () => {
+            const result = await fetchStudySetByID(params.id);
+            if (result.error) {
+                // Handle error
+                setLoading(false);
+                return;
             }
-            setStudySet(result.data)
-        })
-        setLoading(false)
-    },[])
+            setStudySet(result.data);
+            setLoading(false);
+        };
+
+        fetchData();
+
+        // Ensure updateLibrary is only called once per render cycle
+        if (!hasUpdatedLibrary.current) {
+            updateLibrary(params.id, session.username);
+            hasUpdatedLibrary.current = true; // Mark as updated
+        }
+    }, [params.id, session.username]);
+    
     const handleEditRedirect = () =>{
         navigate("/create", {state: {studySetID: studySet?.id}})
     }
@@ -71,7 +84,7 @@ const ViewSet = () => {
             <div className="d-flex center flex-column gap-3">
                 <h2>Terms</h2>
                 {
-                    studySet?.terms.map((card, index) => {
+                    studySet?.terms?.map((card, index) => {
                         return(
                             <div className = "view-card" key={index}>
                                 <div>

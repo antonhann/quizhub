@@ -143,11 +143,19 @@ export const Flashcard = () => {
     },[currentIndex,showingTerm,smartSort,shuffled,startsWithTerm])
 
     useEffect(() => {
+        if(!session.user){
+            navigate("/login");
+            return
+        }
         const updateState = async () => {
             setLoading(true)
             const {data, error} = await fetchFlashcardData(session.username, studySetID)
-            console.log(data)
-            if(error || !data){
+            if(!data){
+                setLoading(false)
+                setDataLoaded(true)
+                return
+            }
+            if(error){
                 console.error(error)
                 return
             }

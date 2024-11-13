@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaBell, FaSearch, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { useState } from 'react';
 import { useSessionContext } from '../../SessionContext';
@@ -6,6 +6,7 @@ import { supabase } from '../../supabaseClient';
 
 const TopNav = () => {
     const [searchTerm, setSearchTerm] = useState("");
+    const navigate = useNavigate();
     const session = useSessionContext();
     const handleSearchChange = (event : any) => {
         setSearchTerm(event.target.value);
@@ -18,10 +19,12 @@ const TopNav = () => {
         }
         window.location.reload()
     };
-    const handleSearchSubmit = (event : any) => {
+    const handleSearchSubmit = async (event : any) => {
         event.preventDefault();
-        // Perform search action with `searchTerm`, like API call or filter function
-        console.log("Searching for:", searchTerm);
+        if (searchTerm.length <= 3){
+            return
+        }
+        navigate("/search/" + searchTerm)
     };
     const handleLogoClick = () => {
         setSearchTerm(""); // Reset search term when the logo is clicked

@@ -3,12 +3,8 @@ import { useSessionContext } from "../../SessionContext"
 import { useEffect, useState } from "react";
 import { fetchUserLibrary } from "../../fetchHelper";
 import Loading from "../reusables/Loading";
-interface StudySet{
-    id: number
-    title: string
-    username: string
-    createdAt: Date
-}
+import DisplaySets from "../reusables/DisplaySets";
+import { StudySet } from "../../models/StudySet";
 export const Library = () => {
     const session = useSessionContext();
     const navigate = useNavigate();
@@ -29,27 +25,13 @@ export const Library = () => {
         })
         setLoading(false)
     },[])
-    const handleSetRedirect = (id : number) => {
-        navigate(`/view-set/${id}`)
-    }
     if(loading){
         return <Loading/>
     }
     return (
         <div className="d-flex justify-content-center text-center flex-column">
             <h1>My Library</h1>
-            <div className="d-flex flex-column justify-content-center align-items-center gap-3 p-5">
-                {
-                    library?.map( (set) => {
-                        return (
-                        <div key = {set.id} className="library-set" onClick={ () => handleSetRedirect(set.id)}>
-                            <h2>{set.title}</h2>
-                            <p>{set.username}</p> 
-                        </div>
-                        )
-                    })
-                }
-            </div>
+            <DisplaySets sets = {library}/> 
         </div>
     )
 }

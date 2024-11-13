@@ -1,9 +1,10 @@
 import { StudyCard } from "./StudyCard";
 
 export interface StudySet{
-    id?: number
+    id: number
     title: string,
+    createdAt?: any,
     description: string, 
     username: string,
-    terms: StudyCard[]
+    terms?: StudyCard[]
 }

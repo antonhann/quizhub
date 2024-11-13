@@ -3,7 +3,7 @@ import { useSessionContext } from "../../SessionContext";
 import React, { useEffect, useState } from "react";
 import { serializeStudyCards, StudyCard } from "../../models/StudyCard";
 import { supabase } from "../../supabaseClient";
-import { fetchStudySetByID } from "../../fetchHelper";
+import { fetchStudySetByID, updateLibrary } from "../../fetchHelper";
 import Loading from "../reusables/Loading";
 
 const DEFAULT_STUDY_SET: StudyCard[] = [
@@ -23,9 +23,6 @@ export const Create = () => {
     const [editing, setEditing] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false)
     useEffect(() => {
-        if (!session.user) {
-            navigate("/login");
-        }
         setLoading(true)
         if (studySetID) {
             fetchStudySetByID(studySetID).then(({data,error}) => {
@@ -88,7 +85,6 @@ export const Create = () => {
                 .select("*")
                 .single(); // Ensures only one row is returned
         }
-        console.log(response)
         // Access the ID from the response
         if (response.error) {
             console.error(response.error);
@@ -99,7 +95,6 @@ export const Create = () => {
         }
         // navigate(`/view-set/${id}`)
     };
-
     if(loading){
         return <Loading/>
     }
