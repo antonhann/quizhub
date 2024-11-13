@@ -105,8 +105,8 @@ export const Create = () => {
     }
 
     return (
-        <div>
-            <h1>{editing ? "Editing" : "Create"} Study Set</h1>
+        <div className="p-3">
+            <h2>{editing ? "Editing" : "Create"} Study Set</h2>
             <form className="create d-flex flex-column center p-5 gap-5" onSubmit={handleCreateStudySet}>
                 <div className="d-flex flex-column w-100 gap-3">
                     <input

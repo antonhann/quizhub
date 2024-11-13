@@ -1,13 +1,13 @@
-import { Footer } from "./Footer"
-import { NavBar } from "./NavBar"
-export const AppContainer = ({ children, active} : any) => {
+import DisplayBar from "./DisplayBar"
+import TopNav from "./TopNav"
+export const AppContainer = ({ children} : any) => {
     return (
         <div className = "app-container">
-            <NavBar active= {active} />
+            <TopNav/>
+            <DisplayBar/>
             <section className="main-container">
                 {children}
             </section>
-            <Footer/>
         </div>
     )
 }

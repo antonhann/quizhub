@@ -1,23 +1,165 @@
+:root {
+  /* Primary Colors */
+  --dark-blue: #0a2540;
+  --blue: #1a4f8b;
+  --light-blue: #3a77d2;
+  --white: #e8e8e8;
+  --dark-gray: #2e3856;
+  --light-gray: #d3d3d3;
+  /* Accent Colors */
+  --accent-blue: #0d63c2;
+  --accent-light-blue: #5a9de1;
+  --accent-dark: #08326b;
+
+  /* Text Colors */
+  --text-primary: var(--white);
+  --text-secondary: #d0e1f9; /* light blue for softer text */
+  --text-accent: var(--color-accent-light-blue);
+}
 body {
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: 1.5em;
-  background: linear-gradient(90deg, #b8c6db, #f5f7fa);
+  background: var(--dark-blue);
+  color: var(--text-primary);
+}
+li{
+  list-style: none;
+}
+ul{
+  padding-left: 0;
 }
 .welcome{
   color: white;
 }
 .app-container {
   display: flex;
-  flex-direction: column;
   min-height: 100vh; /* Minimum height to ensure the entire viewport is covered */
+}
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: var(--dark-blue);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 20px;
+  z-index: 1000;
+}
+.top-nav-search {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  margin: 0 20px; /* Spacing between logo and links */
+  max-width: 500px; /* Adjust width as needed */
+}
+
+.top-nav-search input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--light-gray);
+  border-radius: 4px 0 0 4px;
+  outline: none;
+}
+
+.top-nav-search button {
+  padding: 8px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+.top-nav-logo {
+  font-size: 2.0rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--primary-color);
+  
+}
+.top-nav-links{
+  display: flex;
+}
+.top-nav-links a, .top-nav-logo a{
+  color: var(--light-gray);
+  text-decoration: none;
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.display-bar {
+  background-color: var(--dark-blue);
+  position: fixed;
+  top: 20px; /* Adjust based on your top nav height */
+  left: 0;
+  width: 160px; /* or the width you prefer */
+  height: 100%;
+  z-index: 9; /* Below the top nav */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+nav a{
+  color: var(--light-gray);
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  padding-inline: 5px;
+  align-items: center; /* Aligns icon and text vertically */
+}
+nav li {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between icon and text */
+  width: 100%; /* Ensures each list item takes full width */  
+  border: 1px solid transparent; /* Initial transparent border */
+  transition: border-color 0.3s ease; /* Transition for border on hover */
+}
+
+nav li span {
+  display: inline-block;
+  font-size: 20px;
+  width: 0;
+  padding-left: 10px
+  overflow: hidden;
+  transition: width 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  white-space: nowrap;
+}
+nav li:hover {
+  border-color: var(--light-gray); /* Sets border color on hover */
+}
+nav li span.open,
+nav li:hover span {
+  width: auto; /* Adjusts to fit the text */
+  min-width: 80px; /* Minimum width to ensure the span text has space */
+  opacity: 1;
+}
+.logo {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  padding: 10px;
+  display: flex;
+  align-items: center; /* Vertically center the logo text */
+}
+.hamburger-icon {
+  margin-top: 50px;
+  cursor: pointer;
+  padding: 5px;
 }
 .main-container {
   flex-grow: 1; /* Allow main container to grow to fill available space */
-  background: linear-gradient(to right, rgb(74, 74, 228), rgb(198, 141, 243));
+  background: var(--dark-blue);
   min-height: 80vh;
   display: flex;
+  align-content: center;
+  justify-content: center;
   flex-direction: column;
-  padding: 50px 250px;
+  padding: 60px 250px;
   overflow: auto
 }
 .home-buttons{
@@ -29,12 +171,15 @@ body {
   height: 200px;
   border-radius: 10%;
 }
-
+button{
+  color: var(--text-primary);
+  background-color: var(--dark-gray);
+}
 .library-set{
-  background-color: #E6E6FA;
+  background-color: var(--dark-gray);
   border: 1px solid black;
   padding: 10px 0px;
-  width: 50%;
+  width: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,9 +229,23 @@ body {
 
 .view-card{
   border: 1px solid black;
+  display: grid;
+  grid-template-columns: 20% 80%;
+  justify-items: center;
+  background-color: var(--dark-gray);
+  color: white;
   width: 80%;
   padding: 30px 20px;
 }
+.view-card > :first-child {
+  border-right: 1px solid #ccc; /* Border separating the first (20%) column */
+  padding-right: 10px; /* Optional padding */
+}
+
+.view-card > :last-child {
+  padding-left: 10px; /* Optional padding for spacing on the second (80%) column */
+}
+
 .active{
   text-decoration: underline;
   font-weight: 700;
@@ -108,9 +267,10 @@ body {
 .flashcardOptionInner{
   border: 10px solid black;
   display: flex;
-  margin-inline: 100px;
-  background-color: white;
+  padding: 80px;
+  background-color: var(--dark-blue);
   flex-direction: column;
+  gap: 20px;
   align-items: center;
 }
 .flashcardOptionHeading{
@@ -132,16 +292,18 @@ body {
   transition: transform 0.6s ease;
   cursor: pointer;
   border: 1px solid black;
+  /* Ensure sliding effect does not affect the flip */
 }
 
 .flashcard.showingTerm {
-  transform: rotateY(0deg);
+  transform: rotateX(0deg);
 }
 
 .flashcard.showingAnswer {
-  transform: rotateY(180deg);
+  transform: rotateX(180deg);
 }
 
+/* Flashcard contents */
 .flashcard-content {
   position: absolute;
   width: 100%;
@@ -152,21 +314,14 @@ body {
   justify-content: center;
   font-size: 1.5rem;
   color: white;
-  background: black;
+  background-color: var(--blue);
 }
 
 .flashcard .answer {
-  transform: rotateY(180deg);
+  transform: rotateX(180deg);
 }
 
-/* Slide animations */
-.flashcard.slide-left {
-  transform: translateX(-100%);
-}
 
-.flashcard.slide-right {
-  transform: translateX(100%);
-}
 
 .center{
   justify-content: center;

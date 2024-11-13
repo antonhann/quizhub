@@ -73,9 +73,13 @@ const ViewSet = () => {
                 {
                     studySet?.terms.map((card, index) => {
                         return(
-                            <div className = "d-flex view-card justify-content-evenly" key={index}>
-                                <h4>{card.term}</h4>
-                                <h4>{card.answer}</h4>    
+                            <div className = "view-card" key={index}>
+                                <div>
+                                    {card.term}
+                                </div>
+                                <div>
+                                    {card.answer}
+                                </div>    
                             </div>
                         )
                     })

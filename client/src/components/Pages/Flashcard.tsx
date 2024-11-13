@@ -1,6 +1,6 @@
-import { useLocation, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { useSessionContext } from '../../SessionContext';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StudyCard } from '../../models/StudyCard';
 import { ToggleButton } from '../reusables/ToggleButton';
 import { supabase } from '../../supabaseClient';
@@ -11,6 +11,7 @@ export const Flashcard = () => {
     const params = useParams();
     const session = useSessionContext();
     const location = useLocation();
+    const navigate = useNavigate();
     const formRef = useRef<HTMLDivElement  | null>(null);
     const studySetID = params.id;
 
@@ -25,20 +26,15 @@ export const Flashcard = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [dataLoaded, setDataLoaded] = useState<boolean>(false)
 
-    const [isSliding, setIsSliding] = useState(false);
-    const [slideDirection, setSlideDirection] = useState("slide-out");
 
     const handleNextCard = (inc: number) => {
-        const direction = inc > 0 ? "slide-left" : "slide-right";
-        setSlideDirection(direction);
-        setIsSliding(true);
-
-        setTimeout(() => {
-            setCurrentIndex((prevIndex) => prevIndex + inc);
-            setSlideDirection(direction); // Continue in the same direction for the slide-in effect
-            setShowingTerm(true); // Reset to term view
-        }, 300); // Adjust timing to match CSS transition duration
+        if (currentIndex + inc < 0){
+            return;   
+        }
+        setCurrentIndex((prevIndex) => prevIndex + inc)
+        setShowingTerm(startsWithTerm)
     };
+    
     const handleRestartClick = () => {
         setCurrentIndex(0)
         setKnowTerms(0)
@@ -51,6 +47,10 @@ export const Flashcard = () => {
             let shuffledTerms = shuffle(location.state.originalStudySet.terms)
             setTerms(shuffledTerms)
         }
+    }
+    const toggleStartWithTerm = () => {
+        setStartsWithTerm(!startsWithTerm)
+        setShowingTerm(!showingTerm)
     }
     const toggleShuffle = () => {
         let newShuffled = !shuffled
@@ -172,29 +172,25 @@ export const Flashcard = () => {
 
     if(currentIndex == terms.length){
         return(
-            <div>
-                <div>
-                    {smartSort &&
-                    ((knowTerms !== terms.length) ?
-                    <button onClick={() => handleReviewUnknownTermsClick()}>Review Unknown Terms</button>
-                    :
-                    <div>Finished!</div>
-                    )
-                    }
-                </div>
-                <div>
-                    <button onClick={() => handleRestartClick()}>Restart</button>
-                </div>
-            </div>
+            <FinishFlashcards
+                knowTerms={knowTerms}
+                smartSort = {smartSort}
+                handleRestartClick={handleRestartClick}
+                handleReviewUnknownTermsClick={handleReviewUnknownTermsClick}
+                length={terms.length}
+            >
+            </FinishFlashcards>
         )
     }
     return (
         <div className='d-flex flex-column gap-3'>
-            <p>{currentIndex + 1} / {terms.length}</p>
+            <div className='d-flex justify-content-between'>
+                <p>{currentIndex + 1} / {terms.length}</p>
+                <button className = "" onClick={() => navigate("/view-set/" + studySetID)}>X</button>
+            </div>
             <div
-                className={`flashcard ${isSliding ? slideDirection : ""} ${showingTerm ? 'showingTerm' : 'showingAnswer'}`}
+                className={`flashcard ${showingTerm ? 'showingTerm' : 'showingAnswer'}`}
                 onClick={() => setShowingTerm(!showingTerm)}
-                onTransitionEnd={() => setIsSliding(false)}
             >
                 <div className="flashcard-content term">
                     {terms[currentIndex].term}
@@ -202,7 +198,7 @@ export const Flashcard = () => {
                 <div className="flashcard-content answer">
                     {terms[currentIndex].answer}
                 </div>
-        </div>
+            </div>
             <div>
                 {
                     smartSort ?
@@ -240,7 +236,7 @@ export const Flashcard = () => {
                                 check = {smartSort}
                             />
                             <ToggleButton
-                                toggleFunction = {() => setStartsWithTerm(!startsWithTerm)}
+                                toggleFunction = {() => toggleStartWithTerm()}
                                 label = "Start with Term"
                                 check = {startsWithTerm}
                             />
@@ -251,7 +247,42 @@ export const Flashcard = () => {
         </div>
     )
 }
+interface FinishFlashcardsProps{
+    smartSort: boolean,
+    knowTerms: number,
+    length: number,
+    handleReviewUnknownTermsClick: () => void,
+    handleRestartClick : () => void
+}
+const FinishFlashcards : React.FC<FinishFlashcardsProps>= (props) => {
+    const{
+        smartSort,
+        knowTerms,
+        length,
+        handleReviewUnknownTermsClick,
+        handleRestartClick,
+    } = props;
 
+    return( 
+        <div className='d-flex flex-column center h-100'>
+            <div>
+                {smartSort &&
+                ((knowTerms !== length) ?
+                <button onClick={() => handleReviewUnknownTermsClick()}>Review Unknown Terms</button>
+                :
+                <div>Finished!</div>
+                )
+                }
+                {
+                    !smartSort && <div>Congrats on finishing!</div>
+                }
+            </div>
+            <div>
+                <button onClick={() => handleRestartClick()}>Restart</button>
+            </div>
+        </div>
+    )   
+}
 function shuffle(array : StudyCard[]) {
     let currentIndex = array.length,  randomIndex;
     // While there remain elements to shuffle.
