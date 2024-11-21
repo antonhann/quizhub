@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
-import Loading from './components/reusables/Loading';
+import Loading from './components/reusables/tools/Loading';
 
 interface SessionContextType {
     supabase: any;

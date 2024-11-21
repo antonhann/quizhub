@@ -1,6 +1,6 @@
-import DisplayBar from "./DisplayBar"
-import TopNav from "./TopNav"
-export const AppContainer = ({ children} : any) => {
+import DisplayBar from "../dashboard/DisplayBar"
+import TopNav from "../dashboard/TopNav"
+export const Layout = ({ children} : any) => {
     return (
         <div className = "app-container">
             <TopNav/>

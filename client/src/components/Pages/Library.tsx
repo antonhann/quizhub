@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router";
 import { useSessionContext } from "../../SessionContext"
 import { useEffect, useState } from "react";
-import { fetchUserLibrary } from "../../fetchHelper";
-import Loading from "../reusables/Loading";
-import DisplaySets from "../reusables/DisplaySets";
+import { fetchUserLibrary, fetchUserStudySets } from "../../fetchHelper";
+import Loading from "../reusables/tools/Loading";
+import DisplaySets from "../reusables/components/DisplaySets";
 import { StudySet } from "../../models/StudySet";
 export const Library = () => {
     const session = useSessionContext();
     const navigate = useNavigate();
-    const [library, setLibrary] = useState<StudySet[] | null>([])
+    const [recent, setRecent] = useState<StudySet[] | null>([])
+    const [mySets, setMySets] = useState<StudySet[] | null>([])
+    const [showingLibrary, setShowingLibrary] = useState<boolean>(true)
     const [loading, setLoading] = useState<boolean>(false)
     useEffect(() => {
         if(!session.user){
@@ -21,17 +23,36 @@ export const Library = () => {
                 console.error(error)
                 return
             }
-            setLibrary(data)
+            setRecent(data)
         })
-        setLoading(false)
+        fetchUserStudySets(session.username).then(({data, error}) => {
+            if(error){
+                console.error(error)
+                return
+            }
+            setMySets(data)
+            setLoading(false)
+        })
     },[])
+    const handleSelectChange = (event : any) => {
+        setShowingLibrary(event.target.value === 'recents');
+    };
+
     if(loading){
         return <Loading/>
     }
     return (
-        <div className="d-flex justify-content-center text-center flex-column">
-            <h1>My Library</h1>
-            <DisplaySets sets = {library}/> 
+        <div className="no-center w-100">
+            <h1>Your Library</h1>
+            <select 
+                    onChange={handleSelectChange} 
+                    className="dropdown-select"
+                    value={showingLibrary ? 'recents' : 'created'}
+                >
+                    <option value="recents">Recents</option>
+                    <option value="created">Created</option>
+            </select>
+            <DisplaySets sets={showingLibrary ? recent : mySets} /> 
         </div>
-    )
+    );
 }

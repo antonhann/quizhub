@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { serializeStudyCards, StudyCard } from "../../models/StudyCard";
 import { supabase } from "../../supabaseClient";
 import { fetchStudySetByID } from "../../fetchHelper";
-import Loading from "../reusables/Loading";
+import Loading from "../reusables/tools/Loading";
 
 const DEFAULT_STUDY_SET: StudyCard[] = [
     new StudyCard(1),
@@ -100,7 +100,7 @@ export const Create = () => {
     }
 
     return (
-        <div className="p-3">
+        <div className="p-3 w-100">
             <h2>{editing ? "Editing" : "Create"} Study Set</h2>
             <form className="create d-flex flex-column center p-5 gap-5" onSubmit={handleCreateStudySet}>
                 <div className="d-flex flex-column w-100 gap-3">

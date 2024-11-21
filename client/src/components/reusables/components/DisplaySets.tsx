@@ -1,5 +1,5 @@
 import React from "react"
-import { StudySet } from "../../models/StudySet"
+import { StudySet } from "../../../models/StudySet"
 import { useNavigate } from "react-router";
 
 interface DisplaySetsProps{

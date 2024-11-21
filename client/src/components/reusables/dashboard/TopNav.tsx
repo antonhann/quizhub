@@ -1,23 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { FaBell, FaSearch, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
+import { FaSearch  } from 'react-icons/fa';
 import { useState } from 'react';
-import { useSessionContext } from '../../SessionContext';
-import { supabase } from '../../supabaseClient';
+import ProfilePopup from './ProfilePopup';
 
 const TopNav = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate();
-    const session = useSessionContext();
+    
     const handleSearchChange = (event : any) => {
         setSearchTerm(event.target.value);
-    };
-    const signOut = async () => {
-        const { error } = await supabase.auth.signOut();
-        if (error) {
-            console.error('Error logging out:', error.message);
-            return;
-        }
-        window.location.reload()
     };
     const handleSearchSubmit = async (event : any) => {
         event.preventDefault();
@@ -45,22 +36,7 @@ const TopNav = () => {
                     <FaSearch />
                 </button>
             </form>
-            <div className="top-nav-links">
-                <Link to="/notifications">
-                    <FaBell />
-                </Link>
-                <li>
-                    {session.user ?
-                        <Link to="/" onClick={() => signOut()}>
-                            <FaSignOutAlt /> 
-                        </Link>
-                        :
-                        <Link to="/login">
-                            <FaSignInAlt />
-                        </Link>
-                    }
-                </li>
-            </div>
+            <ProfilePopup/>
         </div>
     );
 };

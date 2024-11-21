@@ -28,6 +28,9 @@ li{
 ul{
   padding-left: 0;
 }
+a{
+  text-decoration: none;
+}
 .welcome{
   color: white;
 }
@@ -90,6 +93,22 @@ ul{
   align-items: center;
   gap: 5px;
 }
+.profilePopup {
+  position: absolute;
+  top: 100%;
+  right: 10px;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: var(--dark-gray);;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  z-index: 100;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
 .display-bar {
   background-color: var(--dark-blue);
   position: fixed;
@@ -151,16 +170,47 @@ nav li:hover span {
   cursor: pointer;
   padding: 5px;
 }
+.loading-buffer {
+  width: 60px; /* Increased width */
+  height: 60px; /* Increased height */
+  border: 6px solid rgba(255, 255, 255, 0.2); /* Background border with lighter opacity */
+  border-top: 6px solid #FFFFFF; /* White foreground color */
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.dropdown-select {
+  padding: 8px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 8vw;
+}
+.libraryHeader {
+  cursor: pointer;
+  padding-bottom: 5px; /* Space for underline */
+}
+
+
 .main-container {
   flex-grow: 1; /* Allow main container to grow to fill available space */
   background: var(--dark-blue);
   min-height: 80vh;
   display: flex;
-  align-content: center;
-  justify-content: center;
+  align-items: center;
   flex-direction: column;
-  padding: 60px 250px;
-  overflow: auto
+  margin-top: 80px;
+  margin-left: 160px;
+  overflow: auto;
+}
+.main-container:has(.yes-center) {
+  justify-content: center;
 }
 .home-buttons{
   flex-wrap: wrap;
@@ -264,7 +314,7 @@ button{
   justify-content: center;
   align-items: center;
 }
-.flashcardOptionInner{
+.optionInner{
   border: 10px solid black;
   display: flex;
   padding: 80px;
@@ -282,6 +332,7 @@ button{
 
 .flashcard-container {
   perspective: 1000px;
+  width: 70%;
 }
 
 .flashcard {

@@ -4,7 +4,7 @@ import { fetchStudySetByID, updateLibrary } from "../../fetchHelper";
 import { useSessionContext } from "../../SessionContext";
 import { StudySet } from "../../models/StudySet";
 import { supabase } from "../../supabaseClient";
-import Loading from "../reusables/Loading";
+import Loading from "../reusables/tools/Loading";
 const ViewSet = () => {
     const params = useParams();
     const session = useSessionContext();
@@ -52,7 +52,9 @@ const ViewSet = () => {
     const handleFlashcardClick = async () => {
         navigate(`/flashcard-set/${studySet?.id}`, {state: {originalStudySet: studySet}})
     }
-
+    const handleTestClick = async () => {
+        navigate(`/test-set/${studySet?.id}`, {state: {originalStudySet: studySet}})
+    }
     if(loading){
         return <Loading/>
     }
@@ -63,15 +65,14 @@ const ViewSet = () => {
     }
 
     return (
-        <div className="d-flex flex-column gap-5">
+        <div className="d-flex flex-column gap-5 w-100">
             <div>
                 <h2>{studySet?.title}</h2>
                 <p>{studySet?.description}</p>
             </div>
             <div className="d-flex justify-content-evenly">
                 <button onClick={() => handleFlashcardClick()}>Flashcard</button>
-                <button>Test</button>
-                <button>Learn</button>
+                <button onClick={() => handleTestClick()}>Test</button>
                 {session.username == studySet?.username && 
                 (
                 <div className="d-flex gap-3">

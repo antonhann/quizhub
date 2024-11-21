@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router'
 import './App.css'
 import { BrowserRouter } from 'react-router-dom'
-import { AppContainer } from './components/reusables/AppContainer'
+import { Layout } from './components/reusables/components/Layout'
 import React from 'react'
 
 import { Home } from './components/Pages/Home'
-import { Login, Register } from './components/Pages/Auth'
+import { Register } from './components/Pages/auth/Register'
 import { SessionProvider } from './SessionContext'
 import { Create } from './components/Pages/Create'
 import { Library } from './components/Pages/Library'
@@ -13,6 +13,8 @@ import { NotFound } from './components/Pages/NotFound'
 import ViewSet from './components/Pages/ViewSet'
 import Flashcard from './components/Pages/Flashcard'
 import Search from './components/Pages/Search'
+import { Login } from './components/Pages/auth/Login'
+import TestDisplay from './components/Pages/Test'
 
 interface RouteConfig{
   path: string,
@@ -51,6 +53,10 @@ const ROUTES: RouteConfig[] = [
   {
     path: "/search/:prefix",
     component: Search
+  },
+  {
+    path: "/test-set/:id",
+    component: TestDisplay
   }
 ];
 
@@ -61,9 +67,9 @@ function App() {
         <Routes>
           {ROUTES.map((route, index) => (
             <Route key={index} path={route.path} element={
-            <AppContainer>
+            <Layout>
               <route.component />
-            </AppContainer>
+            </Layout>
           } />
           ))}
           <Route path = "*" element = {<NotFound/>}/>

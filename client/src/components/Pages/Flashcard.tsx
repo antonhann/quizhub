@@ -2,17 +2,17 @@ import { useLocation, useNavigate, useParams } from 'react-router';
 import { useSessionContext } from '../../SessionContext';
 import React, { useEffect, useRef, useState } from 'react';
 import { StudyCard } from '../../models/StudyCard';
-import { ToggleButton } from '../reusables/ToggleButton';
+import { ToggleButton } from '../reusables/tools/ToggleButton';
 import { supabase } from '../../supabaseClient';
 import { fetchFlashcardData } from '../../fetchHelper';
-import Loading from '../reusables/Loading';
+import Loading from '../reusables/tools/Loading';
+import Popup from '../reusables/dashboard/Popup';
 
 export const Flashcard = () => {
     const params = useParams();
     const session = useSessionContext();
     const location = useLocation();
     const navigate = useNavigate();
-    const formRef = useRef<HTMLDivElement  | null>(null);
     const studySetID = params.id;
 
     const [terms, setTerms] = useState<StudyCard[]>(location.state.originalStudySet.terms)
@@ -21,8 +21,8 @@ export const Flashcard = () => {
     const [shuffled, setShuffled] = useState<boolean>(false)
     const [smartSort, setSmartSort] = useState<boolean>(false)
     const [knowTerms, setKnowTerms] = useState<number>(0)
-    const [startsWithTerm, setStartsWithTerm] = useState<boolean>(true)
-    const [optionPopUp, setOptionsPopUp] = useState<boolean>(false)
+    const [showPopup, setShowPopup] = useState<boolean>(false)
+    const [startsWithTerm, setStartsWithTerm] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
     const [dataLoaded, setDataLoaded] = useState<boolean>(false)
 
@@ -89,19 +89,6 @@ export const Flashcard = () => {
             setCurrentIndex(0)
         }
     }
-    const handleClickOutsideForm = (event : any) => {
-        /**if click is outside of the div close form */
-        if (formRef && formRef.current && !formRef.current.contains(event.target)) {
-            setOptionsPopUp(false);
-        }
-    }
-    useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutsideForm);
-        // Cleanup the event listener on component unmount
-        return () => {
-          document.removeEventListener("mousedown", handleClickOutsideForm);
-        };
-    }, [formRef]);
     useEffect(() => {
         const updatedData = {
             terms: terms,
@@ -173,6 +160,9 @@ export const Flashcard = () => {
         }
         updateState();
     },[])
+    // useEffect(() => {
+    //     console.log(showing)
+    // },[showing])
 
     if(loading){
         return <Loading/>
@@ -191,7 +181,7 @@ export const Flashcard = () => {
         )
     }
     return (
-        <div className='d-flex flex-column gap-3'>
+        <div className='d-flex yes-center flashcard-container flex-column gap-3'>
             <div className='d-flex justify-content-between'>
                 <p>{currentIndex + 1} / {terms.length}</p>
                 <button className = "" onClick={() => navigate("/view-set/" + studySetID)}>X</button>
@@ -223,35 +213,32 @@ export const Flashcard = () => {
                 }
             </div>
             <div>
-                <button className = "" onClick={() => setOptionsPopUp(!optionPopUp)}>Options</button>
+                <button className = "" onClick={() => setShowPopup(!showPopup)}>Options</button>
             </div>
-            {optionPopUp && (
-                <div className = "flashcardOptionsPopup">
-                    <div ref = {formRef} className='flashcardOptionInner'>
-                        <div className='flashcardOptionHeading'>
-                            <h2>Options!</h2>
-                            <button className = "closeButton" onClick={() => setOptionsPopUp(!optionPopUp)}>Close</button>
-                        </div>
-                        <div className='toggleButtons'>
-                            <ToggleButton
-                                toggleFunction = {() => toggleShuffle()}
-                                label = "Shuffle"
-                                check = {shuffled}
-                            />
-                            <ToggleButton
-                                toggleFunction = {() => setSmartSort(!smartSort)}
-                                label = "Smart Sort"
-                                check = {smartSort}
-                            />
-                            <ToggleButton
-                                toggleFunction = {() => toggleStartWithTerm()}
-                                label = "Start with Term"
-                                check = {startsWithTerm}
-                            />
-                        </div>
-                    </div>
+            <Popup
+                title = "Options"
+                className="flashcardOptionsPopup"
+                showPopup = {showPopup}
+                setShowPopup={setShowPopup}
+            >
+                <div className='toggleButtons'>
+                    <ToggleButton
+                        toggleFunction = {() => toggleShuffle()}
+                        label = "Shuffle"
+                        check = {shuffled}
+                    />
+                    <ToggleButton
+                        toggleFunction = {() => setSmartSort(!smartSort)}
+                        label = "Smart Sort"
+                        check = {smartSort}
+                    />
+                    <ToggleButton
+                        toggleFunction = {() => toggleStartWithTerm()}
+                        label = "Start with Term"
+                        check = {startsWithTerm}
+                    />
                 </div>
-            )}
+            </Popup>
         </div>
     )
 }

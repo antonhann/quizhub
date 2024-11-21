@@ -38,6 +38,13 @@ export const fetchUserLibrary = async(username : string) =>{
     return {data: library, error: null}
 }
 
+export const fetchUserStudySets = async (username : string) => {
+    const response = await supabase.from("Study Set")
+    .select("*")
+    .eq("username", username)
+    return response
+}
+
 export const fetchFlashcardData = async(username : string, studySetID : string | undefined) => {
     const response = await supabase.from("Flashcard")
         .select("*")

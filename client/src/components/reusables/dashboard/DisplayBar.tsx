@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"; // If you're using React Router for navigation
-import { FaHome, FaBook, FaSearch, FaPlus, FaTimes, FaBars } from "react-icons/fa";
+import { FaHome, FaBook, FaPlus, FaTimes, FaBars } from "react-icons/fa";
 import { useState } from "react";
-import { useSessionContext } from "../../SessionContext";
+import { useSessionContext } from "../../../SessionContext";
 
 const DisplayBar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -34,12 +34,6 @@ const DisplayBar = () => {
                             <FaBook /> <span className= {`${isOpen && "open"}`}>My Library</span>
                         </Link>
                     </li>
-                    <li>
-                        <Link to="/search">
-                            <FaSearch /> <span className= {`${isOpen && "open"}`}>Search</span>
-                        </Link>
-                    </li>
-                    {/* Conditional logout/login */}
                 </ul>
             </nav>
         </div>

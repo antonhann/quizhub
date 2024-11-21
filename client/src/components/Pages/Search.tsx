@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { searchStudySetByPrefix } from "../../fetchHelper";
 import { StudySet } from "../../models/StudySet";
-import DisplaySets from "../reusables/DisplaySets";
+import DisplaySets from "../reusables/components/DisplaySets";
 
 const Search = () => {
     const prefix = useParams().prefix;
