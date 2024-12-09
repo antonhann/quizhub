@@ -372,8 +372,23 @@ button{
   transform: rotateX(180deg);
 }
 
+.question{
+  display: flex;
+  border: 1px solid white;
+}
+.trueFalse{
+  display: flex;
+  gap: 50px;
+  padding: 50px;
+}
+.trueFalse h3 {
+  border-right: 2px solid #ccc;  /* Add a border to the right of each h3 */
+  padding-right: 50px;  /* Optional: adds some space between text and border */
+}
 
-
+.trueFalse h3:last-child {
+  border-right: none; /* Remove border from the last h3 */
+}
 .center{
   justify-content: center;
   align-items: center;

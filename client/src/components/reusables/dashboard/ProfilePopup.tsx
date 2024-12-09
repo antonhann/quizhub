@@ -20,6 +20,13 @@ const ProfilePopup = () => {
     const togglePopup = () => {
         setShowPopup((prev : boolean) => !prev);
     };
+
+    const handleClick = (logout: boolean) => {
+        if(logout){
+            signOut()
+        }
+        setShowPopup(false)
+    }
     const linkClass = "d-flex gap-3 center"
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -34,11 +41,11 @@ const ProfilePopup = () => {
             <div ref = {formRef} className='profilePopup'>
                 <h3>{session.username}</h3>
                 {session.user ?
-                    <Link className = {linkClass} to="/" onClick={() => signOut()}>
+                    <Link className = {linkClass} to="/" onClick={() => handleClick(true)}>
                         <FaSignOutAlt /> Logout
                     </Link>
                     :
-                    <Link className = {linkClass} to="/login">
+                    <Link className = {linkClass} to="/login" onClick={() => handleClick(false)}>
                         <FaSignInAlt /> Login
                     </Link>
                 }

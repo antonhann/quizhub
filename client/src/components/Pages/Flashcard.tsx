@@ -278,7 +278,7 @@ const FinishFlashcards : React.FC<FinishFlashcardsProps>= (props) => {
         </div>
     )   
 }
-function shuffle(array : StudyCard[]) {
+export function shuffle(array : any[]) {
     let currentIndex = array.length,  randomIndex;
     // While there remain elements to shuffle.
     while (currentIndex > 0) {
