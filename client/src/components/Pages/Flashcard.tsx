@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useSessionContext } from '../../SessionContext';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StudyCard } from '../../models/StudyCard';
 import { ToggleButton } from '../reusables/tools/ToggleButton';
 import { supabase } from '../../supabaseClient';

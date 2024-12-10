@@ -21,6 +21,7 @@ export const Create = () => {
     const [description, setDescription] = useState<string>("");
     const [terms, setTerms] = useState<StudyCard[]>(DEFAULT_STUDY_SET);
     const [editing, setEditing] = useState<boolean>(false);
+    const [error, setError] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(false)
     useEffect(() => {
         setLoading(true)
@@ -62,11 +63,17 @@ export const Create = () => {
 
     const handleCreateStudySet = async (e: any) => {
         e.preventDefault();
+        let filteredTerms = terms.filter(card => card.term.trim() !== "");
+        console.log(filteredTerms.length)
+        if(title.length < 3 || filteredTerms.length == 0){
+            setError("Invalid Study Set!")
+            return
+        }
         const data = {
             username: session.username,
             title: title,
             description: description,
-            terms: serializeStudyCards(terms)
+            terms: serializeStudyCards(filteredTerms)
         };
         let response;
         if (editing) {
@@ -133,6 +140,7 @@ export const Create = () => {
                     })}
                 </div>
                 <button type="button" onClick={handleAddingStudyCard}>+</button>
+                {error && <p className="text-danger">{error}</p>}
                 <button type="submit">SUBMIT</button>
             </form>
         </div>

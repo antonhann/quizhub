@@ -16,7 +16,6 @@ const ViewSet = () => {
     
     useEffect(() => {
         setLoading(true);
-        
         const fetchData = async () => {
             const result = await fetchStudySetByID(params.id);
             if (result.error) {
@@ -27,9 +26,9 @@ const ViewSet = () => {
             setStudySet(result.data);
             setLoading(false);
         };
-
+        
         fetchData();
-
+        
         // Ensure updateLibrary is only called once per render cycle
         if (!hasUpdatedLibrary.current) {
             updateLibrary(params.id, session.username);
@@ -40,15 +39,26 @@ const ViewSet = () => {
     const handleEditRedirect = () =>{
         navigate("/create", {state: {studySetID: studySet?.id}})
     }
-    const handleDeleteStudySet = async() => {
-        const {status, error} = await supabase.from("Study Set").delete().eq("id",studySet?.id)
-        if(error){
-            console.error(error)
-        }else{
-            console.log("success in deleting study set", status)
+    const handleDeleteStudySet = async () => {
+        try {
+            const { error: studySetError, status } = await supabase
+                .from("Study Set")
+                .delete()
+                .eq("id", studySet?.id);
+    
+            if (studySetError) {
+                console.error("Error deleting study set:", studySetError);
+            } else {
+                console.log("Successfully deleted study set", status);
+            }
+    
+            navigate("/my-library");
+    
+        } catch (err) {
+            console.error("Unexpected error:", err);
         }
-        navigate("/my-library")
-    }
+    };
+    
     const handleFlashcardClick = async () => {
         navigate(`/flashcard-set/${studySet?.id}`, {state: {originalStudySet: studySet}})
     }
@@ -63,12 +73,11 @@ const ViewSet = () => {
             StudySet doesnt exist!
         </div>)
     }
-
     return (
         <div className="d-flex flex-column gap-5 w-100">
             <div>
                 <h2>{studySet?.title}</h2>
-                <p>{studySet?.description}</p>
+                <p>{studySet?.username}</p>
             </div>
             <div className="d-flex justify-content-evenly">
                 <button onClick={() => handleFlashcardClick()}>Flashcard</button>
