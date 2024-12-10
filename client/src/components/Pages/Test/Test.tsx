@@ -29,19 +29,12 @@ const Test: React.FC<TestProps> = ({
   const [multipleChoiceQuestions, setMCQuestions] = useState<MCType[]>([])
   const [score, setScore] = useState<number>(0)
   const [submitted, setSubmitted] = useState<boolean>(false)
-  const handleTFAnswer = (index: number, answer: boolean) => {
-    // Update user's answer for the question
-    const updatedQuestions = [...trueFalseQuestions];
-    updatedQuestions[index].userAnswer = answer;
-    setTrueFalseQuestions(updatedQuestions);
-  };
-  const handleMCAnswer = (index: number, answer: string) => {
-    const updatedQuestions = [...multipleChoiceQuestions];
-    updatedQuestions[index].userAnswer = answer;
-    setMCQuestions(updatedQuestions)
-  }
-  useEffect(() => {
 
+  //On load, generate questions
+  useEffect(() => {
+    getQuestions()
+  }, [])
+  const getQuestions = () => {
     const availableTerms = [...terms];
     const tfQuestions = [];
     for(let i = 0; i < questionDistribution.trueFalse; i++){
@@ -72,9 +65,21 @@ const Test: React.FC<TestProps> = ({
       })
       availableTerms.splice(randomIndex, 1);
     }
-    console.log(mcQuestions)
     setMCQuestions(mcQuestions)
-  }, [])
+  }
+
+  
+  const handleTFAnswer = (index: number, answer: boolean) => {
+    // Update user's answer for the question
+    const updatedQuestions = [...trueFalseQuestions];
+    updatedQuestions[index].userAnswer = answer;
+    setTrueFalseQuestions(updatedQuestions);
+  };
+  const handleMCAnswer = (index: number, answer: string) => {
+    const updatedQuestions = [...multipleChoiceQuestions];
+    updatedQuestions[index].userAnswer = answer;
+    setMCQuestions(updatedQuestions)
+  }
   const handleSubmit = () => {
     // Calculate the score
     let totalQuestions = (
@@ -95,13 +100,19 @@ const Test: React.FC<TestProps> = ({
     setScore((totalScore / totalQuestions) * 100)
     setSubmitted(true)
   };
+  const handleTryAgain = () => {
+    setSubmitted(false)
+    setScore(0)
+    getQuestions()
+  }
   if(submitted){
     return(
-      <DisplayScore score = {score}/>
+      <DisplayScore score = {score} handleTryAgain={handleTryAgain}/>
     )
   }
   return (
-    <div>
+    <div className='d-flex flex-column justify-content-center align-items-center gap-4'>
+      <h1>Good Luck!</h1>
       {
         trueFalseQuestions.map((question, index) => {
           return(
@@ -109,21 +120,10 @@ const Test: React.FC<TestProps> = ({
               <TrueFalseQuestion
                 term = {question.term}
                 displayAnswer= {question.displayAnswer}
+                userAnswer = {question.userAnswer}
+                handleTFAnswer = {handleTFAnswer}
+                index = {index}
               />
-              <div className='d-flex justify-content-center gap-3'>
-                <button 
-                  className = {question.userAnswer ? `active` : ""} 
-                  onClick={() => handleTFAnswer(index, true)}
-                >
-                  True
-                </button>
-                <button 
-                  className={question.userAnswer === false ? "active" : ""} 
-                  onClick={() => handleTFAnswer(index, false)}
-                >
-                  False
-                </button>
-              </div>
             </div>
           )
         })

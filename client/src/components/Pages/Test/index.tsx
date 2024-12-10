@@ -1,9 +1,8 @@
-import { useLocation, useParams } from "react-router";
+import { useLocation } from "react-router";
 import { StudyCard } from "../../../models/StudyCard";
 import { useState } from "react";
 import TestCreation from "./TestCreation";
 import Test from "./Test";
-import Popup from "../../reusables/dashboard/Popup";
 export interface QuestionDistribution {
   trueFalse: number,
   multipleChoice: number,
@@ -14,7 +13,6 @@ export const DEFAULT_QD = {
   multipleChoice: 0,
 }
 const TestDisplay = () => {
-  const params = useParams();
   const location = useLocation();
   // const navigate = useNavigate();
   const terms : StudyCard[] = location.state.originalStudySet.terms

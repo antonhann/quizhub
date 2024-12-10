@@ -25,7 +25,7 @@ export const Flashcard = () => {
     const [startsWithTerm, setStartsWithTerm] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
     const [dataLoaded, setDataLoaded] = useState<boolean>(false)
-
+    
 
     const handleNextCard = (inc: number) => {
         if (currentIndex + inc < 0){

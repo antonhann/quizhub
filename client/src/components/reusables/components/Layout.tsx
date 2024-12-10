@@ -5,8 +5,9 @@ export const Layout = ({ children} : any) => {
         <div className = "app-container">
             <TopNav/>
             <DisplayBar/>
-            <section className="main-container">
-                {children}
+            <section className="main-container p-3">
+
+                    {children}
             </section>
         </div>
     )

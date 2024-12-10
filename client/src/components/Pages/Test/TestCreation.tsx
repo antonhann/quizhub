@@ -63,9 +63,9 @@ const TestCreation: React.FC<TestCreationProps> = ({
   };
 
   return (
-    <div>
+    <div className="yes-center d-flex flex-column">
         <h2>Create a New Test</h2>
-        <div>
+        <div className="d-flex flex-column gap-3">
             <div>
             <label htmlFor="totalQuestions">Total Number of Questions:</label>
             <input
@@ -100,12 +100,12 @@ const TestCreation: React.FC<TestCreationProps> = ({
             </div>
             <ToggleButton
                 toggleFunction={toggleTrueFalse}
-                label="True/False Questions"
+                label="True/False Questions?"
                 check={trueFalse}
             />
             <ToggleButton
                 toggleFunction={toggleMultipleChoice}
-                label="Multiple Choice Questions"
+                label="Multiple Choice Questions?"
                 check={multipleChoice}
             />
             {/* <ToggleButton
