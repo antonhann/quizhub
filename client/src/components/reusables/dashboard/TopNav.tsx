@@ -12,10 +12,11 @@ const TopNav = () => {
     };
     const handleSearchSubmit = async (event : any) => {
         event.preventDefault();
+        console.log(searchTerm)
         if (searchTerm.length <= 3){
             return
         }
-        navigate("/search/" + searchTerm)
+        navigate(`/search/` + searchTerm, { replace: true })
     };
     const handleLogoClick = () => {
         setSearchTerm(""); // Reset search term when the logo is clicked

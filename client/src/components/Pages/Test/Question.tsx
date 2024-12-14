@@ -56,13 +56,13 @@ export const TrueFalseQuestion : React.FC<TFProps> = ({
 interface MCProps {
     term: string
     choices: string[]
-    index: number
+    indexTerm: number
     userAnswer: string | undefined | boolean
     handleMCAnswer : (index: number, answer: string) => void;
 }
 export const MultipleChoiceQuestion : React.FC<MCProps> = ({
     term,
-    index,
+    indexTerm,
     userAnswer,
     choices,
     handleMCAnswer
@@ -75,11 +75,12 @@ export const MultipleChoiceQuestion : React.FC<MCProps> = ({
                 </div>
                 <div className="d-flex gap-3">
                     {
-                        choices.map((choice) => {
+                        choices.map((choice,index) => {
                             return(
                                 <button 
+                                    key = {index}
                                     className = {choice == userAnswer ? `active` : ""} 
-                                    onClick={() => handleMCAnswer(index, choice)}
+                                    onClick={() => handleMCAnswer(indexTerm, choice)}
                                 >
                                     {choice}
                                 </button>

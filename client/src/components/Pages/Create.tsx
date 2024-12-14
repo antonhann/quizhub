@@ -139,7 +139,7 @@ export const Create = () => {
                         );
                     })}
                 </div>
-                <button type="button" onClick={handleAddingStudyCard}>+</button>
+                <button className = "create-button d-flex center"type="button" onClick={handleAddingStudyCard}>+</button>
                 {error && <p className="text-danger">{error}</p>}
                 <button type="submit">SUBMIT</button>
             </form>
@@ -177,7 +177,7 @@ export const StudyCardInput: React.FC<StudyCardProps> = ({
                     onChange={(e) => handleUpdate(id, term, e.target.value)}
                 />
             </div>
-            <button type="button" onClick={() => handleDelete(id)}>X</button>
+            <button className = "create-button d-flex center"type="button" onClick={() => handleDelete(id)}>X</button>
         </div>
     );
 };

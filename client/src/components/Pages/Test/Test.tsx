@@ -136,7 +136,7 @@ const Test: React.FC<TestProps> = ({
                 term = {question.term}
                 choices = {question.choices}
                 userAnswer = {question.userAnswer}
-                index = {index}
+                indexTerm = {index}
                 handleMCAnswer={handleMCAnswer}
               >
 

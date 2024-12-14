@@ -17,6 +17,7 @@ const DisplaySets : React.FC<DisplaySetsProps>= (props) => {
     }
     return (
         <div className="d-flex flex-column justify-content-center align-items-center gap-3 p-5">
+        {sets?.length === 0 && "No study sets exists. :/"}
         {sets?.map( (set) => {
                 return (
                 <div key = {set.id} className="library-set" onClick={ () => handleSetRedirect(set.id)}>

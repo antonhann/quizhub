@@ -191,7 +191,7 @@ nav li:hover span {
   border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
-  width: 8vw;
+  width: 100px;
 }
 .libraryHeader {
   cursor: pointer;
@@ -272,6 +272,7 @@ button:hover{
   display: grid;
   grid-template-rows: auto auto;
   grid-template-columns: 95% 5%;
+  background-color: var(--hover-dark);
 }
 .create-card > div:first-child {
   grid-column: span 2; /* Makes the first <div> take the full width of the row */
@@ -279,7 +280,11 @@ button:hover{
 .create-card-input input{
   width: 40%
 }
-
+.create-button{
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+}
 .view-card{
   border: 1px solid black;
   display: grid;
@@ -394,4 +399,16 @@ button:hover{
 .center{
   justify-content: center;
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .display-bar{
+    display: none;
+  }
+  .main-container{
+    margin-inline: 20px;
+  }
+  .library-set{
+    width: 80%;
+  }
 }

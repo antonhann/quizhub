@@ -13,7 +13,8 @@ const Search = () => {
             setStudySets(data)
         }
         loadSearchedSet()
-    },[])
+    },[prefix])
+
     return (
         <div className="no-center w-100"> 
             <DisplaySets sets = {studySets}/> 

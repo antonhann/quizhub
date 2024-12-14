@@ -12,7 +12,7 @@ const TestCreation: React.FC<TestCreationProps> = ({
   handleFormSubmit
  }) => {
   const [totalQuestions, setTotalQuestions] = useState<number>(Math.round(length / 2));
-  const [answerWithTerms, setAnswerWithTerms] = useState<boolean>(true);
+  // const [answerWithTerms, setAnswerWithTerms] = useState<boolean>(true);
   const [trueFalse, setTrueFalse] = useState<boolean>(true); // True/False questions toggle
   const [multipleChoice, setMultipleChoice] = useState<boolean>(false); // Multiple Choice questions toggle
 
@@ -30,9 +30,9 @@ const TestCreation: React.FC<TestCreationProps> = ({
   // Toggle functions for each type of question
   const toggleTrueFalse = () => setTrueFalse(!trueFalse);
   const toggleMultipleChoice = () => setMultipleChoice(!multipleChoice);
-  const handleAnswerWithChange = (answerWith: boolean) => {
-    setAnswerWithTerms(answerWith);
-  };
+  // const handleAnswerWithChange = (answerWith: boolean) => {
+  //   setAnswerWithTerms(answerWith);
+  // };
 
   // Handle the "Create Test" button logic
   const handleCreateTest = () => {
@@ -53,12 +53,6 @@ const TestCreation: React.FC<TestCreationProps> = ({
         if (trueFalse) questionDistribution.trueFalse++;
         else if (multipleChoice) questionDistribution.multipleChoice++;
     }
-    // const test : Question[] = []
-    console.log("Test Created:", {
-      totalQuestions,
-      answerWithTerms,
-      questionDistribution,
-    });
     handleFormSubmit(questionDistribution)
   };
 
@@ -78,7 +72,7 @@ const TestCreation: React.FC<TestCreationProps> = ({
             />
             </div>
             <div>
-            <label>Answer With:</label>
+            {/* <label>Answer With:</label>
             <div>
                 <input
                 type="radio"
@@ -96,7 +90,7 @@ const TestCreation: React.FC<TestCreationProps> = ({
                 onChange={() => handleAnswerWithChange(false)}
                 />
                 <label htmlFor="answers">Answers</label>
-            </div>
+            </div> */}
             </div>
             <ToggleButton
                 toggleFunction={toggleTrueFalse}

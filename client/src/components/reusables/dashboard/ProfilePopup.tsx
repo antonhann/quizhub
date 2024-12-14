@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useSessionContext } from '../../../SessionContext';
 import { supabase } from '../../../supabaseClient';
 import { FaSignInAlt, FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 const ProfilePopup = () => {
     const session = useSessionContext();
     const formRef = useRef<HTMLDivElement  | null>(null);
@@ -16,7 +16,19 @@ const ProfilePopup = () => {
         window.location.reload()
     };
     const [showPopup, setShowPopup] = useState<boolean>(false);
-
+    const handleClickOutsideForm = (event : any) => {
+        /**if click is outside of the div close form */
+        if (formRef && formRef.current && !formRef.current.contains(event.target)) {
+            setShowPopup(false);
+        }
+    }
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutsideForm);
+        // Cleanup the event listener on component unmount
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutsideForm);
+        };
+    }, [formRef]);
     const togglePopup = () => {
         setShowPopup((prev : boolean) => !prev);
     };
