@@ -411,4 +411,21 @@ button:hover{
   .library-set{
     width: 80%;
   }
+  .create-card{
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center
+  }
+  .create-card-input{
+    display: flex;
+    flex-direction: column;
+    width:500px;
+    align-items: center;
+    gap: 10px;
+  }
+  .create-description{
+    width: 200px;
+  }
+
 }
