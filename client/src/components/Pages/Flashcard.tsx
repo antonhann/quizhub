@@ -22,7 +22,7 @@ export const Flashcard = () => {
     const [smartSort, setSmartSort] = useState<boolean>(false)
     const [knowTerms, setKnowTerms] = useState<number>(0)
     const [showPopup, setShowPopup] = useState<boolean>(false)
-    const [startsWithTerm, setStartsWithTerm] = useState<boolean>(false)
+    const [startsWithTerm, setStartsWithTerm] = useState<boolean>(true)
     const [loading, setLoading] = useState<boolean>(false)
     const [dataLoaded, setDataLoaded] = useState<boolean>(false)
     
